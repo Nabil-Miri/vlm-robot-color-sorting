@@ -1,6 +1,6 @@
 # PyBullet Robotic Arm Simulation with Vision-Language Models
 
-A Python simulation that combines PyBullet robotic arm control with zero-shot image-text matching capabilities using the CLIP vision-language model.
+A Python simulation that combines PyBullet robotic arm control with zero-shot image-text matching capabilities using the CLIP vision-language model. This project was created as part of my exploration into applying vision-language models in robotics.
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/8edd7f96-cdcd-4495-b8e8-9ef2164e3d8a" alt="vlm (online-video-cutter" width="1000"/>
