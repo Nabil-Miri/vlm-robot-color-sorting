@@ -1,0 +1,8 @@
+pybullet
+numpy
+torch
+transformers>=4.40.0
+pillow
+matplotlib
+requests
+accelerate
