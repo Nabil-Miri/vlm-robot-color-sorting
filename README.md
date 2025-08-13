@@ -153,3 +153,7 @@ Possible extensions to this project:
 - [PyBullet Documentation](https://pybullet.org/)
 - [Panda Robot Specifications](https://www.franka.de/technology)
 - [Robotics and Physics Simulation Tutorial](https://pybullet.org/wordpress/)
+
+## Contributing
+
+Feel free to fork, modify, and submit PRs! Suggestions and improvements are welcome.
