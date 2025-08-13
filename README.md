@@ -2,6 +2,10 @@
 
 A Python simulation that combines PyBullet robotic arm control with zero-shot image-text matching capabilities using the CLIP vision-language model.
 
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/8edd7f96-cdcd-4495-b8e8-9ef2164e3d8a" alt="vlm (online-video-cutter" width="1000"/>
+</p>
+
 ## Overview
 
 This project demonstrates:
@@ -10,6 +14,21 @@ This project demonstrates:
 - **Intelligent pick and place operations** based on text prompts
 
 The robot captures images from its camera, analyzes them using CLIP, selects objects based on text descriptions, and performs pick-and-place operations, including color sorting and interactive placement.
+
+
+## Implementation Videos
+1) VLM interaction:
+
+
+https://github.com/user-attachments/assets/17893bf4-5b80-47f8-9a8a-8a106cedf039
+
+
+
+2) Automatic Sorting:
+
+
+https://github.com/user-attachments/assets/93f907f5-6c96-4eb3-babd-b46292f15680
+
 
 ## Project Structure
 
