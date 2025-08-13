@@ -340,6 +340,14 @@ class VisionLanguagePandaSimulation:
                     halfExtents=[border_size[0]/2, border_size[1]/2, border_size[2]/2],
                     rgbaColor=border_color
                 )
+                # Actually create the border object in simulation
+                border_id = p.createMultiBody(
+                    baseMass=0,  # Static border
+                    baseCollisionShapeIndex=border_collision,
+                    baseVisualShapeIndex=border_visual,
+                    basePosition=border_pos,
+                    baseOrientation=p.getQuaternionFromEuler([0, 0, 0])
+                )
             
             # Add text label above the zone
             zone_color_name = zone_name.replace('_zone', '').upper()
@@ -1211,22 +1219,17 @@ class VisionLanguagePandaSimulation:
             dict: Dictionary mapping object names to binary masks
         """
         object_masks = {}
-        
         # Create a mapping from object IDs to object names
         id_to_name = {}
         for obj_name, obj_info in self.objects.items():
             id_to_name[obj_info['id']] = obj_name
-        
         # Extract masks for each object
         for obj_id, obj_name in id_to_name.items():
             # Create binary mask where segmentation matches this object ID
             mask = (segmentation_array == obj_id).astype(np.uint8)
-            
             # Only include objects that are actually visible
             if np.any(mask):
                 object_masks[obj_name] = mask
-                print(f"   Found segmentation for {obj_name} (ID: {obj_id}): {np.sum(mask)} pixels")
-        
         return object_masks
     
     def get_precise_bounding_boxes_from_masks(self, object_masks):
@@ -1252,14 +1255,13 @@ class VisionLanguagePandaSimulation:
                 y1, y2 = int(y_coords.min()), int(y_coords.max())
                 
                 # Add smaller padding for tighter bounding boxes
-                padding = 3  # Reduced from 5 to 3 for smaller, more precise boxes
+                padding = 3
                 x1 = max(0, x1 - padding)
                 y1 = max(0, y1 - padding)
                 x2 = min(self.camera_width - 1, x2 + padding)
                 y2 = min(self.camera_height - 1, y2 + padding)
                 
                 precise_boxes[obj_name] = (x1, y1, x2, y2)
-                print(f"   Precise bbox for {obj_name}: ({x1}, {y1}, {x2}, {y2})")
         
         return precise_boxes
     
@@ -1284,7 +1286,7 @@ class VisionLanguagePandaSimulation:
         for obj_name in object_masks.keys():
             if obj_name not in bounding_boxes:
                 continue
-                
+            
             mask = object_masks[obj_name]
             x1, y1, x2, y2 = bounding_boxes[obj_name]
             
@@ -1306,12 +1308,27 @@ class VisionLanguagePandaSimulation:
             # Convert back to PIL Image
             crop_pil = Image.fromarray(masked_img.astype(np.uint8))
             crops[obj_name] = crop_pil
-            
-            print(f"   Created masked crop for {obj_name}: {crop_pil.size}")
         
-        print(f"Created {len(crops)} masked crops from {len(object_masks)} segmentation masks")
         return crops
     
+    def plot_masked_crops(self, crops):
+        """
+        Plot all masked crops for visual inspection.
+        Args:
+            crops (dict): Dictionary mapping object names to masked PIL images
+        """
+        import matplotlib.pyplot as plt
+        n = len(crops)
+        fig, axes = plt.subplots(1, n, figsize=(3*n, 3))
+        if n == 1:
+            axes = [axes]
+        for ax, (name, img) in zip(axes, crops.items()):
+            ax.imshow(img)
+            ax.set_title(name)
+            ax.axis('off')
+        plt.tight_layout()
+        plt.show()
+
     def capture_and_process_scene(self):
         """
         Capture scene image and process it to get precise object detection and cropping.
