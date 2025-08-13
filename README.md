@@ -48,8 +48,11 @@ The robot captures images from its camera, analyzes them using CLIP, selects obj
 - Requests
 
 ## Installation
+1. Clone or download this project:
+   ```bash
+   git clone https://github.com/Nabil-Miri/vlm-robot-color-sorting.git
+   ```
 
-1. Clone or download this project
 2. (Recommended) Create and activate a Python virtual environment:
    ```bash
    python3 -m venv .venv
